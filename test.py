@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 # GPIO 핀 설정
-LED_PIN = 27
+LED_PIN = 12
 GPIO.setmode(GPIO.BCM)  # BCM 모드 설정
 GPIO.setup(LED_PIN, GPIO.OUT)  # LED_PIN을 출력으로 설정
 

@@ -1,19 +1,23 @@
-import lgpio as GPIO
+import lgpio
 import time
 
 LED_PIN = 27
 
-# GPIO 핀 설정
-GPIO.set_mode(LED_PIN, GPIO.OUTPUT)
+# Handle creation and opening
+h = lgpio.gpiochip_open(0)
 
 try:
+    # Set the GPIO pin as an output
+    lgpio.gpio_claim_output(h, LED_PIN)
+
     while True:
-        # LED 켜기
-        GPIO.write(LED_PIN, 1)
+        # Turn the LED on
+        lgpio.gpio_write(h, LED_PIN, 1)
         time.sleep(1)
-        # LED 끄기
-        GPIO.write(LED_PIN, 0)
+        # Turn the LED off
+        lgpio.gpio_write(h, LED_PIN, 0)
         time.sleep(1)
+
 except KeyboardInterrupt:
-    # 프로그램 종료 시 GPIO 설정 초기화
-    GPIO.cleanup()
+    # Cleanup on Ctrl+C
+    lgpio.gpiochip_close(h)

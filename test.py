@@ -13,7 +13,7 @@ try:
     while True:
         # Turn the LED on
         lgpio.gpio_write(h, LED_PIN, 1)
-        time.sleep(1)
+        time.sleep(5)
         # Turn the LED off
         lgpio.gpio_write(h, LED_PIN, 0)
         time.sleep(1)

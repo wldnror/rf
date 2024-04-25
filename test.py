@@ -1,13 +1,19 @@
-from gpiozero import LED
-from time import sleep
+import lgpio as GPIO
+import time
 
-led = LED(27)
+LED_PIN = 27
 
-while True:
-    led.on()
-    sleep(1)
-    led.off()
-    sleep(1)
-except KeyboardInterrupt:  # Ctrl+C를 누르면 예외 발생
-    GPIO.cleanup()  # GPIO 설정 초기화
+# GPIO 핀 설정
+GPIO.set_mode(LED_PIN, GPIO.OUTPUT)
 
+try:
+    while True:
+        # LED 켜기
+        GPIO.write(LED_PIN, 1)
+        time.sleep(1)
+        # LED 끄기
+        GPIO.write(LED_PIN, 0)
+        time.sleep(1)
+except KeyboardInterrupt:
+    # 프로그램 종료 시 GPIO 설정 초기화
+    GPIO.cleanup()

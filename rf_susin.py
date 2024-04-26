@@ -1,7 +1,7 @@
 import lgpio
 import time
 
-# GPIO 핸들 설정
+# GPIO 칩 핸들 설정
 h = lgpio.gpiochip_open(0)
 
 # 입력 핀 설정
@@ -32,8 +32,10 @@ try:
                 # 현재 LED 상태를 반전
                 current_state = lgpio.gpio_read(h, led_pins[current_signal])
                 lgpio.gpio_write(h, led_pins[current_signal], not current_state)
+                # LED 상태가 토글될 때 메시지 출력
+                print(f"LED on pin {led_pins[current_signal]} toggled to {'on' if not current_state else 'off'}.")
             current_signal = ""
             last_time = time.time()
 except KeyboardInterrupt:
-    # Ctrl+C를 누르면 GPIO 설정을 정리
+    # Ctrl+C를 누르면 실행 종료 및 GPIO 칩 핸들 닫기
     lgpio.gpiochip_close(h)

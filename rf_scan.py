@@ -1,7 +1,7 @@
 import lgpio
 import time
 
-LED_PIN = 27
+LED_PIN = 27  # 수신 핀 번호 설정
 
 # GPIO 칩 핸들 생성 및 열기
 h = lgpio.gpiochip_open(0)
@@ -13,24 +13,19 @@ def read_signal():
     # 신호를 읽고 이를 문자열로 반환
     return str(lgpio.gpio_read(h, LED_PIN))
 
-def detect_repeated_signals(required_repeats=3):
-    last_signal = None
-    repeat_count = 0
-    while True:
-        signal = read_signal()
-        if signal == last_signal:
-            repeat_count += 1
-        else:
-            repeat_count = 1
-            last_signal = signal
-        
-        if repeat_count >= required_repeats:
-            print(f"Repeated signal {signal} detected {repeat_count} times.")
-            # 필요한 동작을 실행
-            repeat_count = 0  # 카운트를 리셋
+def detect_signal():
+    # 특정 신호를 감지하면 출력
+    if read_signal() == '1':
+        print("Signal detected!")
+        return True
+    return False
 
 try:
-    detect_repeated_signals(required_repeats=5)  # 여기서 반복 횟수를 설정
-except KeyboardInterrupt:
-    # Ctrl+C를 누르면 실행 종료 및 GPIO 칩 핸들 닫기
+    # 반복해서 신호 감지 시도
+    while True:
+        if detect_signal():
+            break
+        time.sleep(0.1)  # 감지 시도 사이의 딜레이
+finally:
+    # GPIO 칩 핸들 닫기
     lgpio.gpiochip_close(h)

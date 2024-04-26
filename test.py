@@ -2,7 +2,7 @@ from machine import Pin
 import utime
 
 # GPIO 설정
-data_pin_out = Pin(15, Pin.OUT)  # 송신 데이터 핀
+data_pin_out = Pin(27, Pin.OUT)  # 송신 데이터 핀
 
 # 발신 신호
 constant_signal = '10111001'

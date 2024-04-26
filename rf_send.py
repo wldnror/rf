@@ -16,7 +16,7 @@ def send_signal(signal):
         time.sleep(0.1)  # 각 비트 사이의 딜레이
 
 # 신호 전송
-send_signal('01')
+send_signal('0')
 
 # GPIO 칩 핸들 닫기
 lgpio.gpiochip_close(h)

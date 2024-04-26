@@ -12,7 +12,7 @@ try:
     while True:
         rfdevice.tx_code(code, protocol, pulse_length)
         print(f'Code {code} sent')
-        time.sleep(1)  # 매초마다 신호 전송
+        time.sleep(2)  # 매 2초마다 신호 전송
 except KeyboardInterrupt:
     print("신호 전송 중단")
 finally:

@@ -1,25 +1,25 @@
-import lgpio
-import time
+from machine import Pin
+import utime
 
-LED_PIN = 27  # 수신 핀 번호 설정
+# GPIO 설정
+data_pin_out = Pin(15, Pin.OUT)  # 송신 데이터 핀
 
-# GPIO 칩 핸들 생성 및 열기
-h = lgpio.gpiochip_open(0)
+# 발신 신호
+constant_signal = '10111001'
 
-# GPIO 핀을 입력으로 설정하고 풀다운 저항 활성화
-lgpio.gpio_claim_input(h, LED_PIN)
-lgpio.gpio_set_pulls(h, LED_PIN, 0, 1)  # 풀다운 활성화
-
-try:
-    initial_state = lgpio.gpio_read(h, LED_PIN)
-    print("Initial pin state:", initial_state)
-    
+# 송신 함수
+def send_signal():
+    print("Continuously sending signal: 10111001")
     while True:
-        current_state = lgpio.gpio_read(h, LED_PIN)
-        if current_state != initial_state:
-            print(f"State changed to {current_state}")
-            break
-        time.sleep(0.1)
+        for bit in constant_signal:
+            data_pin_out.value(int(bit))
+            utime.sleep(0.1)  # 각 비트 전송 지연 시간
+        utime.sleep(2)  # 다음 신호 전송 전에 간격을 줍니다
+
+# 메인 루프
+try:
+    send_signal()
+except KeyboardInterrupt:
+    print("Program interrupted")
 finally:
-    # GPIO 칩 핸들 닫기
-    lgpio.gpiochip_close(h)
+    print("Clean up and exit")

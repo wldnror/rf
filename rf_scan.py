@@ -14,12 +14,15 @@ def read_signal():
     return str(lgpio.gpio_read(h, LED_PIN))
 
 try:
-    # 초기 상태 확인
-    print("Initial pin state:", read_signal())
-    # 신호 감지 대기
-    while read_signal() == '0':
+    # 초기 상태와 변화 감지
+    initial_state = read_signal()
+    print("Initial pin state:", initial_state)
+    while True:
+        current_state = read_signal()
+        if current_state != initial_state:
+            print(f"State changed to {current_state}")
+            break
         time.sleep(0.1)
-    print("Signal detected!")
 finally:
     # GPIO 칩 핸들 닫기
     lgpio.gpiochip_close(h)
